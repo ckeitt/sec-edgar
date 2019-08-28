@@ -20,7 +20,8 @@ class Filing(_EDGARBase):
     """
     _VALID_FILING_TYPES = ("10-q", "10-k",
                            "8-k", "13-f",
-                           "4", "sd")
+                           "4", "sd", "def 14a",
+                           "defa14a")
 
     def __init__(self, cik, filing_type, **kwargs):
         super(Filing, self).__init__(**kwargs)
@@ -158,6 +159,8 @@ class Filing(_EDGARBase):
         directory = self._sanitize_path(directory)
         self._make_dir(directory)
         txt_urls = self._get_urls()
+        if len(txt_urls) == 0:
+            raise Exception("No text urls")
         doc_names = [url.split("/")[-1] for url in txt_urls]
         for (url, doc_name) in list(zip(txt_urls, doc_names)):
             r = requests.get(url)
