@@ -47,7 +47,16 @@ def date_cleanup(date):
               Defaults to directory from which CLI is being executed.""",
               default=os.getcwd(), type=str)
 def filing(lookups, ftype, start, end, count, directory):
-    """Click command for downloading filings. Run ``secedgar filing --help`` for info."""
+    """Click command for downloading filings. Run ``secedgar filing --help`` for info.
+
+    Examples
+    --------
+
+    .. code:: bash
+
+       # Get first 5 10-Q filings from AAPL between January 1, 2010 and January 1, 2020
+       secedgar filing -l aapl -t FILING_10Q -s 20100101 -e 20200101 -n 5
+    """
     # If given filing type is not valid enum, raise FilingTypeError
     try:
         ftype = FilingType[ftype]
@@ -69,6 +78,14 @@ def filing(lookups, ftype, start, end, count, directory):
               Defaults to directory from which CLI is being executed.""",
               default=os.getcwd(), type=str)
 def daily(date, directory):
-    """Click command for downloading daily filings. Run ``secedgar daily --help`` for info."""
+    """Click command for downloading daily filings. Run ``secedgar daily --help`` for info.
+
+    Examples
+    --------
+
+    .. code:: bash
+
+       secedgar daily -d 20200102 # Downloads all daily filings from January 2, 2020
+    """
     d = DailyFilings(date=date_cleanup(date))
     d.save(directory=directory)
